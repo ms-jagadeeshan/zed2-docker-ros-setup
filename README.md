@@ -1,28 +1,29 @@
-# Setup of orin with zed2 docker(ROS)
+# ZED2 docker setup
 
-- Why use docker?   
-    For using ZED2, need to have zed2 sdk and cuda, you have to setup in each machine and resolving those issues are headache, so using this zed2 docker with ROS, reduces all those headache.
+Using Docker with ZED2 and ROS can simplify the setup process and avoid the headaches of resolving issues with the necessary software components, such as the ZED2 SDK and CUDA, on each individual machine. By using the ZED2 Docker image, these dependencies are already pre-installed and configured, making it much easier to get started with ZED2 and ROS.
 
-Install nvidia-container-toolkit- https://www.stereolabs.com/docs/docker/install-guide-linux
+To use the ZED2 Docker image, you will need to have the Nvidia Container Toolkit installed. You can find instructions on how to install the toolkit in the ZED2 Docker install guide for Linux on the [Stereolabs website.](https://www.stereolabs.com/docs/docker/install-guide-linux)
 
-## Orin Communication options for setup
+## Setup in orin
 
-### **Option 1)** Wired   
+### Orin Communication options for setup
+
+#### **Option 1)** Wired   
 Connect usb to usb c cable to orin
 ```
 sudo screen /dev/ttyACM0 115200
 ```
 
-### **Option 2)** Wireless
+#### **Option 2)** Wireless
 
 `ssh -o PubkeyAuthentication=no orin@mars.local`
 
 
 
-## Setup
+### Setup
 
 Connect to orin terminal either using ssh or usb cable.
-### Using docker run
+#### Using docker run
 ```bash
 docker run -it --gpus all \
     -e ROS_IP=<device-ip> \
@@ -36,9 +37,8 @@ docker run -it --gpus all \
     jagamatrix/zed2-docker:orin-minimal /ros_entrypoint.sh bash
 ```
 
-### Using docker create
+#### Using docker create
 
-#### Orin
 - Nvidia + Network + orin image
 ```bash
 # xhost +si:localuser:root
@@ -53,7 +53,7 @@ docker create -it \
     jagamatrix/zed2-docker:orin-minimal
 ```
 
-### Starting and running
+#### Starting and running
 
 - Start the docker and run
 ```bash
@@ -72,7 +72,7 @@ docker exec -it -e ROS_IP=172.16.18.212 -e ROS_MASTER_URI=http://172.16.18.212:1
 rviz -d zed2i.rviz
 ```
 
-# Orin to base station communication
+## Orin to base station communication
 - For. eg 
   In this setup ros master is running in orin, and zed2 is running in docker.
 
